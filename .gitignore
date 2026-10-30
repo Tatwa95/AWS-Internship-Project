@@ -1,0 +1,21 @@
+# Credentials and local connection material
+*.pem
+*.ppk
+ssh_config
+known_hosts
+.env
+.env.*
+
+# Terraform local state and plans
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+
+# Local editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
