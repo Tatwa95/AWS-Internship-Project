@@ -39,3 +39,7 @@ The student deployment was completed in phases and then cleaned up. During the r
 
 This public source copy contains no private keys, local SSH config, AWS account identifiers, or personal resource IDs. Before publishing any report or screenshots separately, remove credentials, local file paths, account IDs, and any IP addresses you do not want public. Do not commit `*.pem`, `*.tfstate*`, `*.tfplan`, `.terraform/`, `.env`, `ssh_config`, or `known_hosts`.
 
+## Submission report
+
+The public submission package includes the [formatted report](submission/TatwaShahare_EWB_VPC_Peering_Report.pdf), an editable [Markdown report](submission/submission-report.md), verification notes, and redacted AWS Console screenshots. The report discloses that the recorded route-disabled baseline was taken while the peering resource existed.
+

@@ -1,0 +1,51 @@
+EWB AWS VPC Peering verification record
+Student: Tatwa Shahare
+Region: ap-south-1 (Mumbai)
+Date: 31 October 2026
+Temporary stack: ewb-vpc-peering-lab
+Stack ID: arn:aws:cloudformation:ap-south-1:[redacted AWS account ID]:stack/ewb-vpc-peering-lab/85a28290-d49d-11f1-929c-06ffed5b3ae5
+Final CloudFormation status: DELETE_COMPLETE
+
+Live resources during recapture
+VPC A: [redacted AWS resource ID] (10.10.0.0/16)
+VPC B: [redacted AWS resource ID] (10.20.0.0/16)
+Peering: [redacted AWS resource ID]
+Bastion: [redacted AWS resource ID]; 10.10.1.10; public [redacted public IPv4]
+App-A: [redacted AWS resource ID]; 10.10.2.10
+App-B: [redacted AWS resource ID]; 10.20.1.10
+Private route table A: [redacted AWS resource ID]
+Private route table B: [redacted AWS resource ID]
+App-B security group: [redacted AWS resource ID]
+
+SSH verification (private key remained local)
+Bastion: ip-10-10-1-10.ap-south-1.compute.internal
+App-A through bastion ProxyJump: ip-10-10-2-10.ap-south-1.compute.internal
+App-B through bastion ProxyJump: ip-10-20-1-10.ap-south-1.compute.internal
+
+Route-disabled baseline
+The two private route table entries between 10.10.0.0/16 and 10.20.0.0/16 were temporarily removed. The peering connection existed during this baseline; this demonstrates the route-dependent reachability failure and is not a claim that the peering resource had not yet been created.
+App-A -> App-B (10.20.1.10): 4 packets transmitted, 0 received, 100% packet loss.
+
+Connectivity with routes restored
+App-A -> App-B (10.20.1.10): 4 packets transmitted, 4 received, 0% packet loss.
+App-B -> App-A (10.10.2.10): 4 packets transmitted, 4 received, 0% packet loss.
+
+Controlled App-B ICMP permission test
+App-B inbound ICMP Echo Request from 10.10.2.10/32 was temporarily removed; SSH TCP 22 from bastion 10.10.1.10/32 stayed configured.
+App-A -> App-B during removal: 4 packets transmitted, 0 received, 100% packet loss.
+Restored App-B Echo Request from 10.10.2.10/32. AWS Console confirmed the rule was restored (rule ID [redacted AWS resource ID]).
+App-A -> App-B after restoration: 4 packets transmitted, 4 received, 0% packet loss.
+
+AWS Console screenshots saved in this folder
+aws-console-stack-outputs.jpg - live CloudFormation outputs and host addresses/IDs.
+aws-console-active-route.jpg - live VPC A private route table with active peering route.
+aws-console-icmp-restored.jpg - App-B security group after restoring Echo Request.
+aws-console-stack-cleanup.jpg - CloudFormation status DELETE_COMPLETE.
+aws-console-volumes-empty.jpg - no matching volumes for the lab stack name.
+aws-console-active-stacks-empty.jpg - CloudFormation active stack list shows no stacks.
+
+Terminal command outputs are authentic text captured from the live SSH sessions and preserved above. The original interactive terminal screenshot was not available, so no terminal image is represented as original evidence.
+
+Cleanup
+CloudFormation stack ewb-vpc-peering-lab is DELETE_COMPLETE. The EC2 Volumes search returned no matching lab volumes. Active CloudFormation stack list showed no stacks. Stack-managed resources were deleted. The standalone key pair standalone-lab-key remains intentionally.
+
